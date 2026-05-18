@@ -44,7 +44,7 @@ export function Footer() {
             <div className="mt-6 flex items-center gap-2">
               <a
                 aria-label="Instagram HyroCode"
-                href="https://instagram.com/"
+                href="https://instagram.com/hyrocode"
                 target="_blank"
                 rel="noopener"
                 className="inline-flex size-9 items-center justify-center rounded-full border border-white/[0.06] text-muted-foreground transition-all duration-200 hover:border-white/15 hover:text-foreground"
