@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminContatosRouteImport } from './routes/admin.contatos'
 import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
+import { Route as ApiPublicPricingButtonsRouteImport } from './routes/api/public/pricing-buttons'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as ApiPublicAdminVisitorsRouteImport } from './routes/api/public/admin-visitors'
 import { Route as ApiPublicAdminStatsRouteImport } from './routes/api/public/admin-stats'
@@ -38,6 +39,11 @@ const AdminContatosRoute = AdminContatosRouteImport.update({
 const ApiPublicTrackRoute = ApiPublicTrackRouteImport.update({
   id: '/api/public/track',
   path: '/api/public/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPricingButtonsRoute = ApiPublicPricingButtonsRouteImport.update({
+  id: '/api/public/pricing-buttons',
+  path: '/api/public/pricing-buttons',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/api/public/admin-stats': typeof ApiPublicAdminStatsRoute
   '/api/public/admin-visitors': typeof ApiPublicAdminVisitorsRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/pricing-buttons': typeof ApiPublicPricingButtonsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
 }
 export interface FileRoutesByTo {
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/api/public/admin-stats': typeof ApiPublicAdminStatsRoute
   '/api/public/admin-visitors': typeof ApiPublicAdminVisitorsRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/pricing-buttons': typeof ApiPublicPricingButtonsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
 }
 export interface FileRoutesById {
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/api/public/admin-stats': typeof ApiPublicAdminStatsRoute
   '/api/public/admin-visitors': typeof ApiPublicAdminVisitorsRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/pricing-buttons': typeof ApiPublicPricingButtonsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
 }
 export interface FileRouteTypes {
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/api/public/admin-stats'
     | '/api/public/admin-visitors'
     | '/api/public/contact'
+    | '/api/public/pricing-buttons'
     | '/api/public/track'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/api/public/admin-stats'
     | '/api/public/admin-visitors'
     | '/api/public/contact'
+    | '/api/public/pricing-buttons'
     | '/api/public/track'
   id:
     | '__root__'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/api/public/admin-stats'
     | '/api/public/admin-visitors'
     | '/api/public/contact'
+    | '/api/public/pricing-buttons'
     | '/api/public/track'
   fileRoutesById: FileRoutesById
 }
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   ApiPublicAdminStatsRoute: typeof ApiPublicAdminStatsRoute
   ApiPublicAdminVisitorsRoute: typeof ApiPublicAdminVisitorsRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicPricingButtonsRoute: typeof ApiPublicPricingButtonsRoute
   ApiPublicTrackRoute: typeof ApiPublicTrackRoute
 }
 
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/track'
       fullPath: '/api/public/track'
       preLoaderRoute: typeof ApiPublicTrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pricing-buttons': {
+      id: '/api/public/pricing-buttons'
+      path: '/api/public/pricing-buttons'
+      fullPath: '/api/public/pricing-buttons'
+      preLoaderRoute: typeof ApiPublicPricingButtonsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/contact': {
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicAdminStatsRoute: ApiPublicAdminStatsRoute,
   ApiPublicAdminVisitorsRoute: ApiPublicAdminVisitorsRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicPricingButtonsRoute: ApiPublicPricingButtonsRoute,
   ApiPublicTrackRoute: ApiPublicTrackRoute,
 }
 export const routeTree = rootRouteImport
