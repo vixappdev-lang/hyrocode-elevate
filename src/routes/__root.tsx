@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Sites premium, plataformas SaaS e sistemas sob medida. HyroCode projeta experiências digitais que elevam marcas.",
+          "HYROCODE cria soluções personalizadas, modernas e funcionais para destacar seu negócio online. Transformamos sua ideia em sucesso digital!",
       },
       { name: "author", content: "HyroCode" },
       { property: "og:type", content: "website" },
