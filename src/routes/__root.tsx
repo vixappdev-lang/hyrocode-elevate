@@ -113,20 +113,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         }),
       },
     ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "HyroCode",
-          url: "https://hyrocode-elevate.lovable.app",
-          description:
-            "Estúdio digital especializado em sites premium, sistemas web, SaaS e experiências de alta conversão.",
-          sameAs: ["https://instagram.com/hyrocode"],
-        }),
-      },
-    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
