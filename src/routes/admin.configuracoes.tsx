@@ -8,18 +8,16 @@ export const Route = createFileRoute("/admin/configuracoes")({
 });
 
 type PlanCfg = { url: string; label: string };
-type Buttons = { essencial: PlanCfg; pro: PlanCfg; premium: PlanCfg };
+type Buttons = { essencial: PlanCfg; pro: PlanCfg };
 
 const DEFAULTS: Buttons = {
   essencial: { url: "", label: "QUERO ESSE" },
-  pro: { url: "", label: "QUERO ESSE" },
-  premium: { url: "", label: "QUERO ESSE" },
+  pro: { url: "", label: "Entrar em contato" },
 };
 
 const PLAN_LABELS: Record<keyof Buttons, string> = {
   essencial: "Landing Page Premium",
   pro: "Sistemas & Painéis",
-  premium: "Plano Premium",
 };
 
 function ConfiguracoesPage() {
@@ -67,7 +65,7 @@ function ConfiguracoesPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Configurações</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Personalize os botões "Quero esse" de cada plano. Salve para refletir no site público.
+            Personalize somente os 2 planos publicados na área de preços do site.
           </p>
         </div>
         <button
