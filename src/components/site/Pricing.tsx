@@ -118,7 +118,7 @@ export function Pricing() {
         </div>
 
         <div className="mx-auto mt-14 grid max-w-4xl gap-6 md:grid-cols-2">
-          {plans.map((p) => (
+          {resolvedPlans.map((p) => (
             <div
               key={p.name}
               className={`group relative flex h-full flex-col rounded-3xl border border-white/[0.08] bg-card/50 p-8 sm:p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/20 ${
