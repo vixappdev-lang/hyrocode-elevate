@@ -19,6 +19,25 @@ export default defineConfig({
         nitro({
           preset: "vercel",
           compatibilityDate: "2025-09-24",
+          routeRules: {
+            "/_build/**": {
+              headers: { "cache-control": "public, max-age=31536000, immutable" },
+            },
+            "/sitemap.xml": {
+              headers: { "cache-control": "public, max-age=3600" },
+            },
+            "/robots.txt": {
+              headers: { "cache-control": "public, max-age=86400" },
+            },
+            "/**": {
+              headers: {
+                "x-content-type-options": "nosniff",
+                "x-frame-options": "DENY",
+                "referrer-policy": "strict-origin-when-cross-origin",
+                "permissions-policy": "camera=(), microphone=(), geolocation=()",
+              },
+            },
+          },
         }),
       ]
     : [],
