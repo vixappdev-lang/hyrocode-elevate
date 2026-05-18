@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { ContactModal } from "./ContactModal";
+
+type RemoteButtons = Partial<Record<"essencial" | "pro" | "premium", { url?: string; label?: string }>>;
+const PLAN_KEYS = ["essencial", "pro", "premium"] as const;
 
 type Plan = {
   name: string;
@@ -68,6 +71,29 @@ const plans: Plan[] = [
 export function Pricing() {
   const ref = useReveal<HTMLDivElement>();
   const [modalOpen, setModalOpen] = useState(false);
+  const [remote, setRemote] = useState<RemoteButtons>({});
+
+  useEffect(() => {
+    fetch("/api/public/pricing-buttons")
+      .then((r) => r.json())
+      .then((d) => d.ok && d.value && setRemote(d.value as RemoteButtons))
+      .catch(() => {});
+  }, []);
+
+  const resolvedPlans = plans.map((p, i) => {
+    const key = PLAN_KEYS[i];
+    const r = remote[key];
+    if (r?.url && r.url.trim()) {
+      return {
+        ...p,
+        cta: { type: "link" as const, label: r.label || p.cta.label, href: r.url },
+      };
+    }
+    if (r?.label && r.label.trim()) {
+      return { ...p, cta: { ...p.cta, label: r.label } };
+    }
+    return p;
+  });
 
   return (
     <section id="precos" className="relative py-28 sm:py-32">
@@ -92,7 +118,7 @@ export function Pricing() {
         </div>
 
         <div className="mx-auto mt-14 grid max-w-4xl gap-6 md:grid-cols-2">
-          {plans.map((p) => (
+          {resolvedPlans.map((p) => (
             <div
               key={p.name}
               className={`group relative flex h-full flex-col rounded-3xl border border-white/[0.08] bg-card/50 p-8 sm:p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/20 ${

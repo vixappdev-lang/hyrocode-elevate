@@ -44,15 +44,132 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      visitor_events: {
+        Row: {
+          asn: string | null
+          browser: string | null
+          city: string | null
+          country: string | null
+          country_code: string | null
+          created_at: string
+          device: string | null
+          id: string
+          ip: string | null
+          is_mobile: boolean | null
+          is_proxy: boolean | null
+          is_vpn: boolean | null
+          isp: string | null
+          lat: number | null
+          lng: number | null
+          os: string | null
+          path: string | null
+          referrer: string | null
+          region: string | null
+          timezone: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          asn?: string | null
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          country_code?: string | null
+          created_at?: string
+          device?: string | null
+          id?: string
+          ip?: string | null
+          is_mobile?: boolean | null
+          is_proxy?: boolean | null
+          is_vpn?: boolean | null
+          isp?: string | null
+          lat?: number | null
+          lng?: number | null
+          os?: string | null
+          path?: string | null
+          referrer?: string | null
+          region?: string | null
+          timezone?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          asn?: string | null
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          country_code?: string | null
+          created_at?: string
+          device?: string | null
+          id?: string
+          ip?: string | null
+          is_mobile?: boolean | null
+          is_proxy?: boolean | null
+          is_vpn?: boolean | null
+          isp?: string | null
+          lat?: number | null
+          lng?: number | null
+          os?: string | null
+          path?: string | null
+          referrer?: string | null
+          region?: string | null
+          timezone?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -179,6 +296,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

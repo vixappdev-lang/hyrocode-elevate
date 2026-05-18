@@ -10,9 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminContatosRouteImport } from './routes/admin.contatos'
+import { Route as AdminSolicitacoesRouteImport } from './routes/admin.solicitacoes'
+import { Route as AdminRastreioRouteImport } from './routes/admin.rastreio'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configuracoes'
+import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
+import { Route as ApiPublicPricingButtonsRouteImport } from './routes/api/public/pricing-buttons'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicAdminVisitorsRouteImport } from './routes/api/public/admin-visitors'
+import { Route as ApiPublicAdminStatsRouteImport } from './routes/api/public/admin-stats'
+import { Route as ApiPublicAdminSettingsRouteImport } from './routes/api/public/admin-settings'
 import { Route as ApiPublicAdminLoginRouteImport } from './routes/api/public/admin-login'
 import { Route as ApiPublicAdminContactsRouteImport } from './routes/api/public/admin-contacts'
 
@@ -21,19 +30,64 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminContatosRoute = AdminContatosRouteImport.update({
-  id: '/admin/contatos',
-  path: '/admin/contatos',
+const AdminSolicitacoesRoute = AdminSolicitacoesRouteImport.update({
+  id: '/solicitacoes',
+  path: '/solicitacoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRastreioRoute = AdminRastreioRouteImport.update({
+  id: '/rastreio',
+  path: '/rastreio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConfiguracoesRoute = AdminConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ApiPublicTrackRoute = ApiPublicTrackRouteImport.update({
+  id: '/api/public/track',
+  path: '/api/public/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPricingButtonsRoute = ApiPublicPricingButtonsRouteImport.update({
+  id: '/api/public/pricing-buttons',
+  path: '/api/public/pricing-buttons',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminVisitorsRoute = ApiPublicAdminVisitorsRouteImport.update({
+  id: '/api/public/admin-visitors',
+  path: '/api/public/admin-visitors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminStatsRoute = ApiPublicAdminStatsRouteImport.update({
+  id: '/api/public/admin-stats',
+  path: '/api/public/admin-stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminSettingsRoute = ApiPublicAdminSettingsRouteImport.update({
+  id: '/api/public/admin-settings',
+  path: '/api/public/admin-settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicAdminLoginRoute = ApiPublicAdminLoginRouteImport.update({
@@ -49,63 +103,122 @@ const ApiPublicAdminContactsRoute = ApiPublicAdminContactsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/admin/contatos': typeof AdminContatosRoute
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/rastreio': typeof AdminRastreioRoute
+  '/admin/solicitacoes': typeof AdminSolicitacoesRoute
   '/api/public/admin-contacts': typeof ApiPublicAdminContactsRoute
   '/api/public/admin-login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin-settings': typeof ApiPublicAdminSettingsRoute
+  '/api/public/admin-stats': typeof ApiPublicAdminStatsRoute
+  '/api/public/admin-visitors': typeof ApiPublicAdminVisitorsRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/pricing-buttons': typeof ApiPublicPricingButtonsRoute
+  '/api/public/track': typeof ApiPublicTrackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/admin/contatos': typeof AdminContatosRoute
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/rastreio': typeof AdminRastreioRoute
+  '/admin/solicitacoes': typeof AdminSolicitacoesRoute
   '/api/public/admin-contacts': typeof ApiPublicAdminContactsRoute
   '/api/public/admin-login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin-settings': typeof ApiPublicAdminSettingsRoute
+  '/api/public/admin-stats': typeof ApiPublicAdminStatsRoute
+  '/api/public/admin-visitors': typeof ApiPublicAdminVisitorsRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/pricing-buttons': typeof ApiPublicPricingButtonsRoute
+  '/api/public/track': typeof ApiPublicTrackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/admin/contatos': typeof AdminContatosRoute
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/rastreio': typeof AdminRastreioRoute
+  '/admin/solicitacoes': typeof AdminSolicitacoesRoute
   '/api/public/admin-contacts': typeof ApiPublicAdminContactsRoute
   '/api/public/admin-login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin-settings': typeof ApiPublicAdminSettingsRoute
+  '/api/public/admin-stats': typeof ApiPublicAdminStatsRoute
+  '/api/public/admin-visitors': typeof ApiPublicAdminVisitorsRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/pricing-buttons': typeof ApiPublicPricingButtonsRoute
+  '/api/public/track': typeof ApiPublicTrackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/sitemap.xml'
-    | '/admin/contatos'
+    | '/admin/configuracoes'
+    | '/admin/dashboard'
+    | '/admin/rastreio'
+    | '/admin/solicitacoes'
     | '/api/public/admin-contacts'
     | '/api/public/admin-login'
+    | '/api/public/admin-settings'
+    | '/api/public/admin-stats'
+    | '/api/public/admin-visitors'
     | '/api/public/contact'
+    | '/api/public/pricing-buttons'
+    | '/api/public/track'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/sitemap.xml'
-    | '/admin/contatos'
+    | '/admin/configuracoes'
+    | '/admin/dashboard'
+    | '/admin/rastreio'
+    | '/admin/solicitacoes'
     | '/api/public/admin-contacts'
     | '/api/public/admin-login'
+    | '/api/public/admin-settings'
+    | '/api/public/admin-stats'
+    | '/api/public/admin-visitors'
     | '/api/public/contact'
+    | '/api/public/pricing-buttons'
+    | '/api/public/track'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/sitemap.xml'
-    | '/admin/contatos'
+    | '/admin/configuracoes'
+    | '/admin/dashboard'
+    | '/admin/rastreio'
+    | '/admin/solicitacoes'
     | '/api/public/admin-contacts'
     | '/api/public/admin-login'
+    | '/api/public/admin-settings'
+    | '/api/public/admin-stats'
+    | '/api/public/admin-visitors'
     | '/api/public/contact'
+    | '/api/public/pricing-buttons'
+    | '/api/public/track'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  AdminContatosRoute: typeof AdminContatosRoute
   ApiPublicAdminContactsRoute: typeof ApiPublicAdminContactsRoute
   ApiPublicAdminLoginRoute: typeof ApiPublicAdminLoginRoute
+  ApiPublicAdminSettingsRoute: typeof ApiPublicAdminSettingsRoute
+  ApiPublicAdminStatsRoute: typeof ApiPublicAdminStatsRoute
+  ApiPublicAdminVisitorsRoute: typeof ApiPublicAdminVisitorsRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicPricingButtonsRoute: typeof ApiPublicPricingButtonsRoute
+  ApiPublicTrackRoute: typeof ApiPublicTrackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -117,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -124,11 +244,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/contatos': {
-      id: '/admin/contatos'
-      path: '/admin/contatos'
-      fullPath: '/admin/contatos'
-      preLoaderRoute: typeof AdminContatosRouteImport
+    '/admin/solicitacoes': {
+      id: '/admin/solicitacoes'
+      path: '/solicitacoes'
+      fullPath: '/admin/solicitacoes'
+      preLoaderRoute: typeof AdminSolicitacoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/rastreio': {
+      id: '/admin/rastreio'
+      path: '/rastreio'
+      fullPath: '/admin/rastreio'
+      preLoaderRoute: typeof AdminRastreioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/configuracoes': {
+      id: '/admin/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/admin/configuracoes'
+      preLoaderRoute: typeof AdminConfiguracoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/api/public/track': {
+      id: '/api/public/track'
+      path: '/api/public/track'
+      fullPath: '/api/public/track'
+      preLoaderRoute: typeof ApiPublicTrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pricing-buttons': {
+      id: '/api/public/pricing-buttons'
+      path: '/api/public/pricing-buttons'
+      fullPath: '/api/public/pricing-buttons'
+      preLoaderRoute: typeof ApiPublicPricingButtonsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/contact': {
@@ -136,6 +291,27 @@ declare module '@tanstack/react-router' {
       path: '/api/public/contact'
       fullPath: '/api/public/contact'
       preLoaderRoute: typeof ApiPublicContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin-visitors': {
+      id: '/api/public/admin-visitors'
+      path: '/api/public/admin-visitors'
+      fullPath: '/api/public/admin-visitors'
+      preLoaderRoute: typeof ApiPublicAdminVisitorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin-stats': {
+      id: '/api/public/admin-stats'
+      path: '/api/public/admin-stats'
+      fullPath: '/api/public/admin-stats'
+      preLoaderRoute: typeof ApiPublicAdminStatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin-settings': {
+      id: '/api/public/admin-settings'
+      path: '/api/public/admin-settings'
+      fullPath: '/api/public/admin-settings'
+      preLoaderRoute: typeof ApiPublicAdminSettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/admin-login': {
@@ -155,13 +331,34 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminRastreioRoute: typeof AdminRastreioRoute
+  AdminSolicitacoesRoute: typeof AdminSolicitacoesRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminConfiguracoesRoute: AdminConfiguracoesRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminRastreioRoute: AdminRastreioRoute,
+  AdminSolicitacoesRoute: AdminSolicitacoesRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  AdminContatosRoute: AdminContatosRoute,
   ApiPublicAdminContactsRoute: ApiPublicAdminContactsRoute,
   ApiPublicAdminLoginRoute: ApiPublicAdminLoginRoute,
+  ApiPublicAdminSettingsRoute: ApiPublicAdminSettingsRoute,
+  ApiPublicAdminStatsRoute: ApiPublicAdminStatsRoute,
+  ApiPublicAdminVisitorsRoute: ApiPublicAdminVisitorsRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicPricingButtonsRoute: ApiPublicPricingButtonsRoute,
+  ApiPublicTrackRoute: ApiPublicTrackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

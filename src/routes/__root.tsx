@@ -4,9 +4,12 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { CookieBanner } from "@/components/site/CookieBanner";
+import { VisitorTracker } from "@/components/site/VisitorTracker";
 
 import appCss from "../styles.css?url";
 
@@ -107,9 +110,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Organization",
           name: "HyroCode",
           url: "https://hyrocode.online",
+          logo: "https://hyrocode.online/favicon.png",
           description:
             "Estúdio digital especializado em sites premium, sistemas web, SaaS e experiências de alta conversão.",
           sameAs: ["https://instagram.com/hyrocode"],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "HyroCode",
+          url: "https://hyrocode.online",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://hyrocode.online/?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+          },
         }),
       },
     ],
@@ -122,7 +140,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
@@ -136,10 +154,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  const isAdmin = path.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      {!isAdmin && <CookieBanner />}
+      {!isAdmin && <VisitorTracker />}
     </QueryClientProvider>
   );
 }
