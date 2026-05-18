@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { ContactModal } from "./ContactModal";
+
+type RemoteButtons = Partial<Record<"essencial" | "pro" | "premium", { url?: string; label?: string }>>;
+const PLAN_KEYS = ["essencial", "pro", "premium"] as const;
 
 type Plan = {
   name: string;
