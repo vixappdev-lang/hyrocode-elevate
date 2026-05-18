@@ -1,54 +1,80 @@
-# Plano
+## 1. Logo realmente maior (sem esticar, sem extender)
 
-## 1. Rota admin protegida por token — `/admin/contatos`
+A causa raiz já foi confirmada: o PNG `src/assets/hyrocode-logo.png` tem **enorme padding transparente em cima e embaixo** (a marca ocupa só ~40% da altura da imagem). Por isso aumentar `h-*` no CSS dá pouco efeito — só aumenta o "ar".
 
-Nova rota acessível só com um token (sem login/Supabase Auth, simples e direto).
+**Solução:** gerar uma versão cropada do PNG (trim do alpha) e usá-la nos componentes.
 
-**Fluxo:**
-- Acesso a `/admin/contatos` → se não houver token válido no `localStorage`, mostra tela "Acesso restrito" com campo de senha.
-- Usuário digita o token → frontend envia para `POST /api/public/admin-login` que compara com `ADMIN_TOKEN` (secret) em tempo constante e devolve `{ ok: true, token }` se válido.
-- Token salvo em `localStorage` (`hyro_admin_token`) e enviado no header `x-admin-token` em todas as chamadas seguintes.
-- `GET /api/public/admin-contacts?page=1&pageSize=10` valida o header, consulta `contact_submissions` via `supabaseAdmin` com `range()` e retorna `{ rows, total, page, pageSize }`.
+- Rodar `sharp` localmente para fazer `trim()` no PNG → salvar como `src/assets/hyrocode-logo-trim.png` (mantém proporção real do símbolo + texto, sem redesenhar nada, mesmas cores, mesma arte).
+- Trocar o import em `Navbar.tsx` e `Footer.tsx` para o arquivo cropado.
+- Reduzir levemente as classes (`h-10 sm:h-12` na navbar, `h-12 md:h-14` no footer) — como o PNG agora é "puro logo", a marca aparecerá **visivelmente ~50–60% maior** sem ocupar mais espaço de layout e sem distorcer nada.
 
-**UI da página (`/admin/contatos`):**
-- Header com logo, título "Solicitações" e botão "Sair" (limpa token).
-- Lista de cards (1 por solicitação), grid responsivo `md:grid-cols-2`, cada card mostra: nome (título), email + WhatsApp + estado (linha de metadados), descrição (texto), data formatada (rodapé), botão "Abrir WhatsApp" e "Responder por email".
-- Paginação inferior: `‹ Anterior  Página X de Y  Próxima ›`, 10 por página.
-- Estado vazio elegante quando não há solicitações.
-- Loader (skeleton dos cards) e tratamento de erro (token inválido → volta pra tela de login).
-- Estilo seguindo o design atual: `bg-card`, `border-white/[0.07]`, `inset` shadow — mesma linguagem da seção Valores. Sem neon.
+Nenhum outro componente é tocado.
 
-**Segredo necessário:** `ADMIN_TOKEN` (vou pedir via `add_secret` antes de implementar).
+## 2. Seções "somem" — bug do reveal on scroll
 
-## 2. Presença visual da logo (sem redesenhar)
+O `useReveal` aplica `opacity: 0` via `.reveal` e só adiciona `.is-visible` quando o `IntersectionObserver` dispara. Em alguns casos (scroll rápido, refresh no meio da página, navegação por âncora) o elemento já está visível antes do observer montar → fica invisível para sempre.
 
-Inspeção do arquivo `src/assets/hyrocode-logo.png` (1536×1024, bbox 12–1510 × 0–1024): a imagem **já está cropada nas bordas**. O "espaço vazio" que faz a logo parecer pequena é o espaço interno entre símbolo e a palavra "HYROCODE" dentro do próprio PNG — não dá pra remover sem redesenhar (o que você proibiu).
+**Correção em `src/hooks/use-reveal.ts`:**
+- Checar imediatamente no mount se o elemento já está dentro do viewport (`getBoundingClientRect`) e marcar visível direto.
+- Como fallback, garantir `.is-visible` se `prefers-reduced-motion` estiver ativo.
+- Adicionar em `styles.css` um fallback `@media (prefers-reduced-motion: reduce) .reveal { opacity: 1; transform: none; }`.
 
-**Solução profissional sem mexer no arquivo:** deixar a logo **transbordar** a altura visual da navbar/footer usando altura maior + margens negativas, mantendo a barra compacta. É a técnica usada por marcas como Apple/Linear quando a logo tem bounding largo.
+Isso elimina o "sumiço" de Proposta / Valores / Portfólio / Pricing.
 
-**Navbar (`src/components/site/Navbar.tsx`):**
-- `<img>` muda de `h-10 sm:h-12` para `h-14 sm:h-16 -my-3` dentro do `<a>`.
-- `<a>` ganha `flex items-center shrink-0` para não comprimir.
-- A nav continua com `py-1` → altura visível da barra inalterada, mas o símbolo da logo cresce ~40% em presença.
-- Logo no menu mobile (header dentro do drawer): manter atual.
+## 3. Performance geral
 
-**Footer (`src/components/site/Footer.tsx`):**
-- `<img>` muda de `h-12 md:h-14` para `h-16 md:h-20`.
-- Adiciona `-ml-2` para alinhar o símbolo (que tem leve respiro à esquerda no PNG) com a coluna de texto abaixo.
-- Resto da coluna MARCA inalterado.
+- Adicionar `loading="lazy"` e `decoding="async"` em imagens não-críticas (PortfolioSlider, cards).
+- Adicionar `fetchpriority="high"` + preload no logo da navbar (LCP candidato).
+- Trocar listeners de scroll para usar `requestAnimationFrame` com flag (Navbar já é `passive`, ok).
+- Garantir que `ContactModal` faça import dinâmico (`React.lazy`) — só carrega quando o usuário clica em "Iniciar projeto".
+- Revisar animações pesadas em `Hero` (se houver float infinito) para usar `will-change` corretamente.
 
-Resultado: logo com mais presença em header e footer, sem alterar cores, tipografia, identidade ou layout das demais seções.
+## 4. Scrollbar transparente
 
-## 3. Link do Instagram → @hyrocode
+Em `src/styles.css`:
 
-Em `Footer.tsx`, o `<a>` do ícone Instagram passa de `href="https://instagram.com/"` para `href="https://instagram.com/hyrocode"`.
+```css
+html { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+html:hover { scrollbar-color: color-mix(in oklab, white 12%, transparent) transparent; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; transition: background .25s; }
+html:hover ::-webkit-scrollbar-thumb { background: color-mix(in oklab, white 10%, transparent); }
+```
 
-## Arquivos tocados
+Resultado: barra invisível em repouso, aparece sutilmente ao interagir.
 
-- **Editar:** `src/components/site/Navbar.tsx`, `src/components/site/Footer.tsx`
-- **Criar:** `src/routes/admin.contatos.tsx`, `src/routes/api/public/admin-login.ts`, `src/routes/api/public/admin-contacts.ts`
-- **Não tocar:** Hero, Proposta, PortfolioSlider, ComoFunciona, Pricing, Valores, ContactModal, tokens de tema, logo PNG.
+## 5. Google SEO — resposta final
 
-## Pendência antes de implementar
+**Pergunta:** "consegue fazer integração 100% com Google SEO pra meu site aparecer no topo com precisão máxima?"
 
-Preciso que você confirme/forneça o `ADMIN_TOKEN` (a senha que vai usar pra entrar em `/admin/contatos`). Posso gerar uma forte automaticamente ou você prefere escolher?
+**Resposta honesta:**
+
+Posso configurar **toda a parte técnica** que o Google espera (isso eu garanto 100%):
+
+- `<title>` e `meta description` únicos por rota.
+- Open Graph + Twitter Card.
+- JSON-LD (Organization, WebSite, Service).
+- `sitemap.xml` dinâmico (rota TanStack) + `robots.txt`.
+- Canonical, lang, viewport, charset corretos.
+- Verificação no **Google Search Console** via meta tag (posso fazer end-to-end pelo conector já disponível — gero o token, injeto a tag, chamo verify e cadastro o domínio).
+- Envio do sitemap ao GSC.
+
+**O que NÃO existe (e ninguém entrega de verdade):** garantia de "topo do Google". Ranking depende de autoridade do domínio, backlinks, idade, concorrência ("criar site" é altíssima competição — grandes players gastam milhões). O que posso fazer é deixar você **tecnicamente perfeito e indexável** e mirar keywords realistas ("desenvolvimento de sites premium [cidade]", "criação de SaaS sob medida", etc.), o que pode trazer resultado real em semanas/meses.
+
+Se aprovar o plano, na implementação eu já incluo SEO técnico + verificação no Search Console.
+
+---
+
+## Arquivos afetados
+
+- `src/assets/hyrocode-logo-trim.png` (novo, gerado por script)
+- `src/components/site/Navbar.tsx` (import + classes)
+- `src/components/site/Footer.tsx` (import + classes)
+- `src/hooks/use-reveal.ts` (fix observer)
+- `src/styles.css` (scrollbar + reduced-motion)
+- `src/components/site/ContactModal.tsx` import → lazy em `Pricing.tsx` / `Hero.tsx`
+- `src/routes/__root.tsx` (preload do logo, meta verification se aprovado)
+- (Opcional, na fase SEO) `src/routes/sitemap[.]xml.ts`, `public/robots.txt`
+
+Sem mexer em cores, navbar layout, identidade visual, hero, pricing, valores ou qualquer estrutura existente.
