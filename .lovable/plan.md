@@ -1,87 +1,71 @@
-# Plano de refinamentos HyroCode
+# Refinamentos HyroCode — rodada final
 
-## 1. Navbar — logo maior
-- Em `src/components/site/Navbar.tsx`: aumentar `img` da logo para `h-16 sm:h-20` (sem alterar padding do nav, mantendo a barra com mesma altura visual graças ao `py-1.5`). Ajustar `py` se necessário só para a logo não estourar o círculo.
+## 1. Hero — substituir orb por visual profissional
+Remover toda a animação de "orb com anéis girando" (que ficou amadora) em `src/components/site/Hero.tsx`.
 
-## 2. Footer — restaurar versão anterior
-- Reabrir `src/components/site/Footer.tsx` e voltar à estrutura anterior (logo + nome HyroCode grande centralizado, descrição "HYROCODE cria soluções personalizadas, modernas e funcionais...", ícone único do Instagram, rodapé "Feito com carinho por HyroCode Desenvolvimento · © 2026"). Garantir que está exportado e usado em `routes/index.tsx`.
+Substituir por uma composição **profissional e elegante**, sem visual circense:
+- **Card central tipo "browser mockup"** flutuante mostrando uma interface real (gradiente da marca + linhas de código suaves + um gráfico/dashboard estilizado em SVG).
+- **Glow ambiente** atrás (radial suave da cor primária, sem pulsar exagerado).
+- **2 cards menores flutuando** nas laterais (um com métrica "+218% conversão", outro com "Performance 98/100" tipo Lighthouse), levemente inclinados em perspectiva.
+- **Animação sutil**: float vertical lento (4-6s ease-in-out infinite) nos 3 cards, com delays diferentes. Nada girando. Apenas respiração e leve flutuação — sensação Linear/Vercel/Stripe.
+- Manter eyebrow "Bem-vindo à HyroCode", H1 e subtítulo já existentes.
+- Remover os chips "Código limpo / Performance / Design premium" do orb.
+- Atualizar `styles.css`: remover `orb-spin`, `orb-spin-reverse`, `orb-pulse`. Adicionar `@keyframes float-y` (translateY -8px / +8px).
 
-## 3. Hero — simplificar e animar
-Substituir o mosaico de 3 imagens por **um único visual animado e elegante**:
-- Remover imports de `hero-site`, `hero-dashboard-v2`, `hero-mobile` no Hero.
-- Criar um "orb" central: uma esfera com gradiente da marca, glow pulsante, anéis orbitais em CSS animados (rotate infinito lento), partículas/pontos sutis. Tudo em CSS/SVG puro — leve, sem imagem. Animação contínua suave (não exagerada).
-- Eyebrow chip muda de "Estúdio premium de produto digital" → **"BEM-VINDO À HYROCODE"**.
-- H1 muda para: **"Seu negócio merece um site que vende por você."**
-- Subtítulo: **"Uma nova proposta de site para você que está com baixa conversão. Adquira hoje mesmo sua landing page ou site institucional com tecnologias de alta conversão e design pensado para gerar resultado real."**
+## 2. Portfólio — mockups estilo apresentação (inspiração elevatelp.com.br)
+Em vez de prints chapados, gerar imagens com **mockup de laptop/notebook flutuando em fundo escuro com glow da marca**, mostrando o site do nicho dentro da tela do notebook. Estilo "showcase" de agência premium.
 
-## 4. Portfolio — 6 nichos BR, realista, texto em PT
-- Reduzir para 6 projetos com nichos críveis no Brasil:
-  1. Clínica Odontológica (Sorriso Bem Estar)
-  2. Barbearia (Barbearia Don Lucca)
-  3. Estética & Estética Avançada (Lumière Estética)
-  4. Studio de Pilates (Core Pilates Studio)
-  5. Advocacia (Almeida & Ribeiro Advocacia)
-  6. Restaurante (Cantina Bella Massa)
-- Regenerar 6 imagens fotorrealistas (`imagegen` premium) de **mockups de sites reais em português brasileiro**, mostrando hero, menus em PT-BR (Início, Serviços, Sobre, Contato), botões "Agendar agora", "Fale conosco". Substituir `p1..p6` (excluir p7 e p8 ou simplesmente não importá-los).
-- Manter marquee em loop automático.
+- Regerar `p1..p6` com prompt premium:
+  - "Photorealistic floating MacBook Pro mockup on dark navy background with subtle blue glow, displaying a modern Brazilian [nicho] website in Brazilian Portuguese, 3D perspective slightly tilted, soft reflections, agency showcase style, cinematic lighting, no text overlay"
+  - Os 6 nichos atuais (Odonto, Barbearia, Estética, Pilates, Advocacia, Restaurante).
+- Em `PortfolioSlider.tsx`:
+  - Card maior para acomodar o mockup com respiro: `h-[320px] w-[420px] sm:h-[360px] sm:w-[500px]`.
+  - `object-cover object-center` (não mais object-top).
+  - Remover borda forte; usar fundo `bg-transparent` com glow sutil ao hover.
+  - Manter marquee em loop automático.
+  - Reorganizar header da seção: eyebrow + título + descrição centralizados com mais respiro (já está, refinar espaçamento).
 
-## 5. Pricing — ajustes
-**Plano 1 — Landing Page Premium (R$ 497 / 12× R$ 49,70):**
-Features substituídas por:
-- Logotipo feito do zero
-- Banners profissionais
-- Design personalizado
-- Estrutura responsiva
-- SEO básico
-- Conteúdo visual
-- Configuração de domínio
-- Garantia de desempenho
-- 2 rodadas completas de alterações
-- Formulário de captura de leads (opcional)
-- Estrutura 100% personalizada
+## 3. Footer — restaurar versão grande centralizada
+O footer atual já está com logo grande + descrição + Instagram + "Feito com carinho por HyroCode Desenvolvimento". Está correto, mas usuário diz "não arrumou" — provavelmente quer **mais presença**. Ajustes:
+- Aumentar logo para `h-32 sm:h-36`.
+- Aumentar descrição (texto maior, line-height generoso).
+- Garantir que está sendo renderizado em `routes/index.tsx` (verificar).
 
-**Plano 2 — Sistemas & Painéis Sob Medida (renomear):**
-- Título: **"Sistemas & Painéis Sob Medida"**
-- Preço: **"Valor a consultar"** (sem "à vista"/parcelas)
-- Descrição: para software, painel administrativo, CRM, dashboards e automações personalizadas.
-- Features: Software sob medida · Painel administrativo · CRM personalizado · Integrações com APIs · Banco de dados robusto · Login e permissões · Dashboard com métricas · Escopo personalizado conforme necessidade.
-- Botão muda de "QUERO ESSE" para **"Entrar em contato"** e abre **modal** (não link wpp).
-- Botão do Plano 1 continua "QUERO ESSE" (link wpp).
+## 4. Navbar — logo ainda maior
+Em `Navbar.tsx`:
+- Logo: `h-24 sm:h-28` (atualmente h-20/h-24).
+- Manter `-my-2` para não estourar a barra; aumentar `-my-3` se necessário.
+- Não mexer no resto do menu.
 
-## 6. Modal de contato (novo componente)
-Criar `src/components/site/ContactModal.tsx` usando `Dialog` do shadcn (já instalado):
-- Título: "Vamos conversar sobre seu projeto"
-- Descrição: "Preencha o formulário abaixo e nossa equipe entra em contato em até 24 horas."
-- Campos:
-  - Nome (input texto)
-  - Estado (Select com **todos os 27 estados do Brasil** — AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO)
-  - WhatsApp / Contato (input com máscara simples)
-  - Descrição do projeto (textarea, opcional)
-- Botão "Enviar" com shine.
-- Ao enviar: troca conteúdo do modal para tela de sucesso — ícone check, título "Solicitação enviada com sucesso!", texto "Recebemos seu contato. Em até 24 horas nossa equipe falará com você pelo WhatsApp." + botão "Fechar".
-- Estado interno (`useState`) controla `submitted`. Sem backend — apenas UX (form local). Validação básica obrigatórios.
-- `Pricing.tsx` controla `open` do modal e passa ao componente.
+## 5. Pricing — borda do plano destacado mais sutil
+Em `Pricing.tsx`, no plano `highlighted`:
+- Remover a borda gradiente forte permanente (linhas 103-113).
+- Estado padrão: borda neutra sutil `border border-white/[0.08]` igual ao outro.
+- No `hover` (group): aplicar a borda gradiente mais suave (opacity 60%) + leve glow.
+- Manter o badge "Mais escolhido" sempre visível.
 
-## 7. Shine em todos os botões
-Aplicar a classe `.btn-shine` em **todos** os CTAs/botões principais:
-- Navbar "Iniciar projeto" (já tem) — manter
-- Navbar mobile (já tem) — manter
-- Hero "Iniciar um projeto" (já tem) — manter
-- Hero "Ver portfólio" — **adicionar**
-- Pricing "QUERO ESSE" (já tem) — manter
-- Pricing "Entrar em contato" — adicionar
-- Modal "Enviar" e "Fechar" — adicionar
-- Footer (se houver CTA) — adicionar
+## 6. Remover travessões "—" do site
+Varrer textos visíveis e trocar todos os `—` (em-dash) por:
+- vírgula, ponto, ou reescrita curta conforme o contexto.
+Arquivos: `Hero.tsx`, `Proposta.tsx`, `ComoFunciona.tsx`, `Pricing.tsx`, `PortfolioSlider.tsx`, `Footer.tsx`, `ContactModal.tsx`, `Navbar.tsx`. Mantém apenas hífens normais `-` quando necessário (ex: "Don Lucca" não tem). Esse é o tique de IA que o usuário quer eliminar.
 
-## Detalhes técnicos
-- Não tocar em outras seções (Proposta, ComoFunciona) além do necessário.
-- Não mudar tokens do design system; usar utilitários já existentes.
-- Animação do orb 100% CSS (`@keyframes` no `styles.css`): `orb-pulse`, `ring-spin-slow`, `ring-spin-reverse`. Performance ok (transform/opacity).
-- Estados do Brasil em const array dentro do `ContactModal.tsx`.
-- Imagens de portfólio: prompts em português pedindo "realistic browser screenshot of a Brazilian [nicho] website, copy in Brazilian Portuguese, modern design".
+## 7. Modal — dropdown de estados bonito (custom)
+O `<select>` nativo do HTML é feio e segue o tema do SO. Substituir por **Select do shadcn** (`@/components/ui/select`) em `ContactModal.tsx`:
+- Importar `Select, SelectTrigger, SelectValue, SelectContent, SelectItem`.
+- Estilizar o trigger com mesma aparência dos inputs (rounded-xl, border-white/10, bg-background/60).
+- `SelectContent` herda o tema dark (popover já estilizado) — fica elegante.
+- Listar os 27 UFs com nome completo: "SP — São Paulo", "RJ — Rio de Janeiro", etc. (mas como vamos remover travessões, usar formato "SP · São Paulo" ou só "São Paulo (SP)"). → usar **"São Paulo (SP)"** para ficar limpo.
+- Manter os outros inputs como estão (já bonitos).
 
-## Arquivos
-- editar: `Navbar.tsx`, `Hero.tsx`, `Footer.tsx`, `PortfolioSlider.tsx`, `Pricing.tsx`, `styles.css`
-- criar: `ContactModal.tsx`
-- regenerar: `p1-analytics.jpg` … `p6-ecom.jpg` (renomear conceitualmente, manter nomes de arquivo para evitar refator)
-- não usar mais: `p7-health.jpg`, `p8-landing.jpg`, `hero-site.jpg`, `hero-dashboard-v2.jpg`, `hero-mobile.jpg` (deixar no disco, só remover imports)
+## Arquivos a editar
+- `src/components/site/Hero.tsx` (refazer visual)
+- `src/components/site/PortfolioSlider.tsx` (cards maiores, mockup-friendly)
+- `src/components/site/Navbar.tsx` (logo maior)
+- `src/components/site/Footer.tsx` (logo/desc maiores)
+- `src/components/site/Pricing.tsx` (borda destaque só no hover)
+- `src/components/site/ContactModal.tsx` (Select shadcn)
+- `src/styles.css` (remover orb-*, adicionar float-y)
+- Substituir todos os `—` em textos visíveis dos componentes acima + `Proposta.tsx` e `ComoFunciona.tsx`
+
+## Arquivos a regerar
+- `src/assets/p1-analytics.jpg` ... `p6-ecom.jpg` (premium, mockup de notebook flutuante com site brasileiro do nicho dentro)
