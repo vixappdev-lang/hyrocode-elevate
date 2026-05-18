@@ -71,6 +71,29 @@ const plans: Plan[] = [
 export function Pricing() {
   const ref = useReveal<HTMLDivElement>();
   const [modalOpen, setModalOpen] = useState(false);
+  const [remote, setRemote] = useState<RemoteButtons>({});
+
+  useEffect(() => {
+    fetch("/api/public/pricing-buttons")
+      .then((r) => r.json())
+      .then((d) => d.ok && d.value && setRemote(d.value as RemoteButtons))
+      .catch(() => {});
+  }, []);
+
+  const resolvedPlans = plans.map((p, i) => {
+    const key = PLAN_KEYS[i];
+    const r = remote[key];
+    if (r?.url && r.url.trim()) {
+      return {
+        ...p,
+        cta: { type: "link" as const, label: r.label || p.cta.label, href: r.url },
+      };
+    }
+    if (r?.label && r.label.trim()) {
+      return { ...p, cta: { ...p.cta, label: r.label } };
+    }
+    return p;
+  });
 
   return (
     <section id="precos" className="relative py-28 sm:py-32">
