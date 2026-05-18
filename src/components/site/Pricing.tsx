@@ -143,7 +143,7 @@ export function Pricing() {
                 <div className="mt-1 text-sm text-muted-foreground">{p.installments}</div>
               )}
 
-              <ul className="mt-7 space-y-3">
+              <ul className="mt-7 flex-1 space-y-3">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-3 text-sm text-foreground/90">
                     <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary-glow">
