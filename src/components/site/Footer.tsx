@@ -1,4 +1,4 @@
-import logo from "@/assets/hyrocode-logo.png";
+import logo from "@/assets/hyrocode-logo-trim.png";
 import { Instagram } from "lucide-react";
 
 const navegacao = [
@@ -34,8 +34,10 @@ export function Footer() {
             <img
               src={logo}
               alt="HyroCode"
-              className="h-16 md:h-20 w-auto -ml-2 select-none"
+              className="h-9 md:h-11 w-auto select-none"
               draggable={false}
+              loading="lazy"
+              decoding="async"
             />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Estúdio digital especializado em sites premium, sistemas web e

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
-import logo from "@/assets/hyrocode-logo.png";
+import logo from "@/assets/hyrocode-logo-trim.png";
 
 const links = [
   { href: "#proposta", label: "Proposta" },
@@ -41,8 +41,10 @@ export function Navbar() {
           <img
             src={logo}
             alt="HyroCode"
-            className="h-14 sm:h-16 w-auto -my-3 select-none"
+            className="h-7 sm:h-8 w-auto select-none"
             draggable={false}
+            fetchPriority="high"
+            decoding="async"
           />
         </a>
 
