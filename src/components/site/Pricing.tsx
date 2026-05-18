@@ -95,7 +95,7 @@ export function Pricing() {
           {plans.map((p) => (
             <div
               key={p.name}
-              className={`group relative flex flex-col rounded-3xl border border-white/[0.08] bg-card/50 p-8 sm:p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/20 ${
+              className={`group relative flex h-full flex-col rounded-3xl border border-white/[0.08] bg-card/50 p-8 sm:p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/20 ${
                 p.highlighted
                   ? "bg-card shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elegant)]"
                   : ""
@@ -159,7 +159,7 @@ export function Pricing() {
                   href={p.cta.href}
                   target="_blank"
                   rel="noopener"
-                  className={`btn-shine mt-auto pt-2 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-all hover:translate-y-[-1px] ${
+                  className={`btn-shine mt-8 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-all hover:translate-y-[-1px] ${
                     p.highlighted
                       ? "bg-foreground text-background shadow-[var(--shadow-elegant)]"
                       : "glass text-foreground hover:bg-white/[0.06]"
@@ -171,7 +171,7 @@ export function Pricing() {
                 <button
                   type="button"
                   onClick={() => setModalOpen(true)}
-                  className={`btn-shine mt-auto pt-2 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-all hover:translate-y-[-1px] ${
+                  className={`btn-shine mt-8 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-all hover:translate-y-[-1px] ${
                     p.highlighted
                       ? "bg-foreground text-background shadow-[var(--shadow-elegant)]"
                       : "glass text-foreground hover:bg-white/[0.06]"
