@@ -90,6 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/355e4108-e514-489f-b6d0-65206ef7d7ce/id-preview-cd92e42c--425fa925-7dc6-45c7-a96e-6e4790911994.lovable.app-1779091000984.png" },
     ],
     links: [
+      { rel: "canonical", href: "https://hyrocode.online/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -97,6 +98,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "HyroCode",
+          url: "https://hyrocode.online",
+          description:
+            "Estúdio digital especializado em sites premium, sistemas web, SaaS e experiências de alta conversão.",
+          sameAs: ["https://instagram.com/hyrocode"],
+        }),
+      },
     ],
     scripts: [
       {
