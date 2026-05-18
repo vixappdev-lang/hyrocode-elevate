@@ -81,6 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "HyroCode" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "HyroCode — Estúdio de produto digital" },
+      { name: "twitter:title", content: "HyroCode — Estúdio de produto digital" },
+      { name: "description", content: "HyroCode Digital Studio creates premium, high-level websites for brands." },
+      { property: "og:description", content: "HyroCode Digital Studio creates premium, high-level websites for brands." },
+      { name: "twitter:description", content: "HyroCode Digital Studio creates premium, high-level websites for brands." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/355e4108-e514-489f-b6d0-65206ef7d7ce/id-preview-cd92e42c--425fa925-7dc6-45c7-a96e-6e4790911994.lovable.app-1779091000984.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/355e4108-e514-489f-b6d0-65206ef7d7ce/id-preview-cd92e42c--425fa925-7dc6-45c7-a96e-6e4790911994.lovable.app-1779091000984.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
