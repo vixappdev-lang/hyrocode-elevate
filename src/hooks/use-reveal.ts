@@ -6,6 +6,16 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // Respect reduced motion + already-visible elements (fix sections vanishing)
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const rect = el.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (reduced || inView) {
+      el.classList.add("is-visible");
+      return;
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -15,10 +25,19 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
           }
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px -5% 0px" }
     );
     io.observe(el);
-    return () => io.disconnect();
+
+    // Safety fallback: never leave the element invisible
+    const safety = window.setTimeout(() => {
+      el.classList.add("is-visible");
+    }, 1200);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(safety);
+    };
   }, []);
 
   return ref;
