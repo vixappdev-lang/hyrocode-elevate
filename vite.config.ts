@@ -19,6 +19,9 @@ export default defineConfig({
         nitro({
           preset: "vercel",
           compatibilityDate: "2025-09-24",
+          vercel: {
+            functions: { runtime: "nodejs22.x" },
+          },
           routeRules: {
             "/_build/**": {
               headers: { "cache-control": "public, max-age=31536000, immutable" },
