@@ -33,7 +33,11 @@ function ConfiguracoesPage() {
       .then((r) => r.json())
       .then((d) => {
         if (d.ok && d.value) {
-          setButtons({ ...DEFAULTS, ...(d.value as Buttons) });
+          const incoming = d.value as Partial<Buttons>;
+          setButtons({
+            essencial: { ...DEFAULTS.essencial, ...incoming.essencial },
+            pro: { ...DEFAULTS.pro, ...incoming.pro },
+          });
         }
       })
       .finally(() => setLoading(false));
